@@ -1,96 +1,189 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br />
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
-        >vue-cli documentation</a
-      >.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
-          target="_blank"
-          rel="noopener"
-          >babel</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint"
-          target="_blank"
-          rel="noopener"
-          >eslint</a
-        >
-      </li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li>
-        <a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a>
-      </li>
-      <li>
-        <a href="https://forum.vuejs.org" target="_blank" rel="noopener"
-          >Forum</a
-        >
-      </li>
-      <li>
-        <a href="https://chat.vuejs.org" target="_blank" rel="noopener"
-          >Community Chat</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/vuejs" target="_blank" rel="noopener"
-          >Twitter</a
-        >
-      </li>
-      <li>
-        <a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a>
-      </li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
-      </li>
-      <li>
-        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-devtools#vue-devtools"
-          target="_blank"
-          rel="noopener"
-          >vue-devtools</a
-        >
-      </li>
-      <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-          rel="noopener"
-          >awesome-vue</a
-        >
-      </li>
-    </ul>
-  </div>
+  <div id="container"></div>
 </template>
 
 <script>
+import G6 from "@antv/g6";
 export default {
   name: "HelloWorld",
   props: {
     msg: String
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      G6.registerNode(
+        "my-rect",
+        {
+          getAnchorPoints: function getAnchorPoints() {
+            return [
+              [0.5, 0],
+              [0.5, 1]
+            ];
+          }
+        },
+        "rect"
+      );
+      const data = {
+        nodes: [
+          {
+            id: "1",
+            label: "开始",
+            type: "my-rect"
+          },
+          {
+            id: "2",
+            type: "my-rect",
+            label: "条件节点"
+          },
+          {
+            id: "3",
+            type: "my-rect",
+            label: "查询ES集群状态"
+          },
+          {
+            id: "4",
+            x: 900,
+            y: 100,
+            type: "my-rect",
+            label: "结束"
+          }
+        ],
+        edges: [
+          {
+            source: "1",
+            target: "2"
+          },
+          {
+            source: "1",
+            target: "3"
+          },
+          {
+            source: "2",
+            target: "3"
+          },
+          {
+            source: "3",
+            target: "4"
+          },
+          {
+            source: "1",
+            target: "4"
+          }
+        ]
+      };
+
+      G6.registerNode(
+        "sql",
+        {
+          drawShape(cfg, group) {
+            const rect = group.addShape("rect", {
+              attrs: {
+                x: -75,
+                y: -25,
+                width: 150,
+                height: 50,
+                radius: 10,
+                stroke: "#5B8FF9",
+                fill: "#C6E5FF",
+                lineWidth: 3
+              },
+              name: "rect-shape"
+            });
+            if (cfg.name) {
+              group.addShape("text", {
+                attrs: {
+                  text: cfg.name,
+                  x: 0,
+                  y: 0,
+                  fill: "#00287E",
+                  fontSize: 14,
+                  textAlign: "center",
+                  textBaseline: "middle",
+                  fontWeight: "bold"
+                },
+                name: "text-shape"
+              });
+            }
+            return rect;
+          }
+        },
+        "single-node"
+      );
+
+      const width = document.getElementById("container").scrollWidth;
+      const height = document.getElementById("container").scrollHeight || 800;
+      const graph = new G6.Graph({
+        container: "container",
+        width,
+        height,
+        fitCenter: true,
+        layout: {
+          type: "dagre",
+          nodesepFunc: d => {
+            if (d.id === "3") {
+              return 500;
+            }
+            return 50;
+          },
+          ranksep: 70,
+          controlPoints: true
+        },
+        // defaultNode: {
+        //   type: "sql"
+        // },
+        // defaultEdge: {
+        //   type: "polyline",
+        //   style: {
+        //     radius: 20,
+        //     offset: 45,
+        //     endArrow: true,
+        //     lineWidth: 2,
+        //     stroke: "#C2C8D5"
+        //   }
+        // },
+        nodeStateStyles: {
+          selected: {
+            stroke: "#d9d9d9",
+            fill: "#5394ef"
+          }
+        },
+        modes: {
+          default: [
+            "drag-canvas",
+            "zoom-canvas",
+            "click-select",
+            {
+              offset: 30
+            }
+          ]
+        },
+        fitView: true,
+        // modes: {
+        //   default: ['drag-canvas'],
+        // },
+        defaultNode: {
+          style: {
+            fill: "#DEE9FF",
+            stroke: "#5B8FF9"
+          }
+        },
+        defaultEdge: {
+          type: "cubic-vertical",
+          style: {
+            stroke: "#F6BD16",
+            radius: 20,
+            offset: 45,
+            endArrow: true,
+            lineWidth: 2
+          }
+        }
+      });
+      graph.data(data);
+      graph.render();
+    }
   }
 };
 </script>
