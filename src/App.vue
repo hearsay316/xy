@@ -96,7 +96,13 @@ export default {
             logoIcon: {
               // 是否显示 icon，值为 false 则不渲染 icon
               show: false
-            }
+            },
+            descriptionCfg: {
+              style: {
+                fill: "#000000",
+                fontSize: 16
+              }
+            },
           },
           {
             id: "4",
