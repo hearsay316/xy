@@ -24,6 +24,11 @@
             </li>
           </ul>
         </div>
+        <div class="message-main">
+          <h3 class="message-main-title">
+            表达式
+          </h3>
+        </div>
       </div>
     </MessageBox>
   </div>
@@ -75,8 +80,8 @@ export default {
               show: false
             },
             stateIcon: {
-              show: false,
-              img:
+              show: true,
+              img://设置左侧小图标
                 "https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg"
             },
             logoIcon: {
@@ -90,8 +95,8 @@ export default {
             description: "查询ES集群状态",
             label: "标准节点",
             stateIcon: {
-              show: false,
-              img:
+              show: true,
+              img: //设置左侧小图标
                 "https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg"
             },
             logoIcon: {
@@ -194,9 +199,11 @@ export default {
 
   .message-list
     list-style none
-
+    padding-bottom 35px
+    border-bottom 1px solid #cccccc
     .message-list-item
       display flex
+      margin-bottom 15px
     .message-list-item-left
       margin-right 15px
 </style>
