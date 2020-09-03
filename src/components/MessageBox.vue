@@ -17,17 +17,18 @@
 export default {
   name: "MessageBox",
   props: {
-    show: {
+    show: {// 控制隐藏和显示
       type: Boolean,
       default: false
     },
-    close: {
+    close: { //是否显示关闭按钮
       type: String,
       default: ""
     }
   },
   methods: {
     handleClickClose() {
+      // 更改父组件数据的状态
       this.$emit("update:show", false);
     }
   }

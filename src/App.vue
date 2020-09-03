@@ -36,8 +36,9 @@ export default {
   name: "App",
   data() {
     return {
-      MessageBoxShow: false,
+      MessageBoxShow: false, //弹框
       info: {
+        //信息
         label: "",
         id: "",
         description: ""
@@ -102,7 +103,7 @@ export default {
                 fill: "#000000",
                 fontSize: 16
               }
-            },
+            }
           },
           {
             id: "4",
@@ -151,13 +152,14 @@ export default {
       console.log(graph);
     },
     handleClickDagre(event) {
-      ["label", "id","description"].forEach(item => {
+      // 获取元素的节点信息
+      ["label", "id", "description"].forEach(item => {
         console.log(event.item._cfg.model[item]);
-        if(event.item._cfg.model[item]){
+        if (event.item._cfg.model[item]) {
           this.info[item] = event.item._cfg.model[item];
         }
       });
-      // 开始
+      //打开弹框
       !this.MessageBoxShow ? (this.MessageBoxShow = true) : void 0;
     }
   }
