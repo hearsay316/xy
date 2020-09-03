@@ -54,11 +54,19 @@ export default {
           {
             id: "1",
             label: "开始",
-            type: "my-rect"
+            type: "my-rect",
+            anchorPoints: [
+              [0, 1],
+              [0.5, 1]
+            ]
           },
           {
             id: "2",
             type: "modelRect",
+            anchorPoints: [
+              [0.5, 0],
+              [1, 0.5]
+            ],
             label: "条件节点",
             description: "条件节点",
             linkPoints: {
@@ -81,7 +89,8 @@ export default {
             },
             stateIcon: {
               show: true,
-              img://设置左侧小图标
+              //设置左侧小图标
+              img:
                 "https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg"
             },
             logoIcon: {
@@ -92,11 +101,16 @@ export default {
           {
             id: "3",
             type: "modelRect",
+            anchorPoints: [
+              [0.5, 0],
+              [1, 0.5]
+            ],
             description: "查询ES集群状态",
             label: "标准节点",
             stateIcon: {
               show: true,
-              img: //设置左侧小图标
+              //设置左侧小图标
+              img:
                 "https://gw.alipayobjects.com/zos/basement_prod/c781088a-c635-452a-940c-0173663456d4.svg"
             },
             logoIcon: {

@@ -66,6 +66,7 @@ export default {
             "drag-canvas",
             "zoom-canvas",
             "click-select",
+            "drag-node", // 拖拽
             {
               offset: 30
             }
