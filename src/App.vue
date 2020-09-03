@@ -174,9 +174,9 @@ export default {
       // 获取元素的节点信息
       ["label", "id", "description"].forEach(item => {
         console.log(event.item._cfg.model[item]);
-        if (event.item._cfg.model[item]) {
-          this.info[item] = event.item._cfg.model[item];
-        }
+        event.item._cfg.model[item]
+          ? (this.info[item] = event.item._cfg.model[item])
+          : (this.info[item] = "");
       });
       //打开弹框
       !this.MessageBoxShow ? (this.MessageBoxShow = true) : void 0;
